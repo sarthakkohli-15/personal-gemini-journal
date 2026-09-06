@@ -1,0 +1,120 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "User profile metadata",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Unique user ID" },
+        "email": { "type": "string", "description": "User email address" },
+        "displayName": { "type": "string", "description": "Display name" },
+        "photoURL": { "type": "string", "description": "Avatar URL" },
+        "createdAt": { "type": "string", "description": "Account creation timestamp" }
+      },
+      "required": ["id", "email"]
+    },
+    "JournalEntry": {
+      "title": "JournalEntry",
+      "description": "A user-isolated journal and reflection entry containing multi-turn conversation with Gemini",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Document ID" },
+        "userId": { "type": "string", "description": "Owner user ID" },
+        "title": { "type": "string", "description": "Entry title" },
+        "createdAt": { "type": "string", "description": "ISO timestamp of creation" },
+        "updatedAt": { "type": "string", "description": "ISO timestamp of last update" },
+        "summary": { "type": "string", "description": "Gemini AI reflection summary" },
+        "category": { "type": "string", "description": "Category: Reflection, Gratitude, Daily, Ideas, Decision" },
+        "messages": { "type": "array", "description": "Multi-turn messages between user and Gemini" },
+        "photos": { "type": "array", "description": "Attached photo memories and metadata" }
+      },
+      "required": ["id", "userId", "title", "createdAt", "updatedAt", "messages"]
+    },
+    "GrowthInsights": {
+      "title": "GrowthInsights",
+      "description": "Synthesized personal growth insights extracted across user journal history",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Document ID" },
+        "userId": { "type": "string", "description": "Owner user ID" },
+        "generatedAt": { "type": "string", "description": "ISO timestamp" },
+        "analyzedEntriesCount": { "type": "number", "description": "Number of journal entries analyzed" },
+        "achievements": { "type": "array", "description": "List of recognized achievements" },
+        "activeGoals": { "type": "array", "description": "Active or mentioned goals" },
+        "recurringThemes": { "type": "array", "description": "Recurring themes and interests" },
+        "importantDecisions": { "type": "array", "description": "Important decisions made" },
+        "learnedLessons": { "type": "array", "description": "Lessons and knowledge acquired" },
+        "unresolvedQuestions": { "type": "array", "description": "Unresolved thoughts and questions" },
+        "recentProgress": { "type": "string", "description": "Overview of recent personal progress" },
+        "suggestedNextSteps": { "type": "array", "description": "Gentle AI suggestions for next steps" }
+      },
+      "required": ["id", "userId", "generatedAt"]
+    },
+    "MonthlyReflection": {
+      "title": "MonthlyReflection",
+      "description": "Structured monthly reflection and recap for a specific month",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Document ID / Month key (YYYY-MM)" },
+        "userId": { "type": "string", "description": "Owner user ID" },
+        "monthKey": { "type": "string", "description": "YYYY-MM identifier" },
+        "monthLabel": { "type": "string", "description": "Human-readable label" },
+        "generatedAt": { "type": "string", "description": "ISO timestamp" },
+        "entryCount": { "type": "number", "description": "Entries in month" },
+        "accomplishments": { "type": "array", "description": "What I accomplished" },
+        "challenges": { "type": "array", "description": "What challenged me" },
+        "learnings": { "type": "array", "description": "What I learned" },
+        "whatMattered": { "type": "array", "description": "What mattered to me" },
+        "goalsMentioned": { "type": "array", "description": "Goals I mentioned" },
+        "memorableMoments": { "type": "array", "description": "Moments worth remembering" },
+        "nextMonthFocus": { "type": "array", "description": "Possible focus for next month" }
+      },
+      "required": ["id", "userId", "monthKey", "generatedAt"]
+    },
+    "PublicStory": {
+      "title": "PublicStory",
+      "description": "An explicitly shared, sanitized journal reflection or monthly recap in Inspiration Space",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Unique story document ID" },
+        "authorUid": { "type": "string", "description": "Owner user ID for ownership validation" },
+        "authorDisplayName": { "type": "string", "description": "User-selected display name or anonymous pseudonym" },
+        "authorPhotoURL": { "type": "string", "description": "Optional author avatar URL or null if anonymous" },
+        "isAnonymous": { "type": "boolean", "description": "Whether the author chose to publish anonymously" },
+        "sourceType": { "type": "string", "description": "Source: reflection or monthly_recap" },
+        "sourceOriginalId": { "type": "string", "description": "ID of originating entry or monthKey for unpublish tracking" },
+        "title": { "type": "string", "description": "User-confirmed title for the public story" },
+        "content": { "type": "string", "description": "Sanitized reflection or recap narrative" },
+        "category": { "type": "string", "description": "Theme or month category" },
+        "highlights": { "type": "array", "description": "Explicitly selected accomplishments or lessons" },
+        "photos": { "type": "array", "description": "Explicitly selected photo memories" },
+        "publishedAt": { "type": "string", "description": "ISO timestamp of publication" },
+        "inspiredCount": { "type": "number", "description": "Number of people inspired" },
+        "inspiredBy": { "type": "array", "description": "User IDs who responded with Inspired Me" }
+      },
+      "required": ["id", "authorUid", "authorDisplayName", "title", "content", "publishedAt"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "UserProfile",
+      "description": "Private profile document for each authenticated user"
+    },
+    "/users/{userId}/entries/{entryId}": {
+      "schema": "JournalEntry",
+      "description": "User's isolated journal entries and reflections with multi-turn AI interactions"
+    },
+    "/users/{userId}/growthInsights/{insightId}": {
+      "schema": "GrowthInsights",
+      "description": "User's saved personal growth summaries and insights"
+    },
+    "/users/{userId}/monthlyReflections/{monthId}": {
+      "schema": "MonthlyReflection",
+      "description": "User's saved monthly reflections and moments"
+    },
+    "/publicStories/{storyId}": {
+      "schema": "PublicStory",
+      "description": "Sanitized, explicitly approved community inspiration stories"
+    }
+  }
+}

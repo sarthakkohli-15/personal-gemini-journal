@@ -1,0 +1,70 @@
+@import "tailwindcss";
+
+@layer base {
+  body {
+    background-color: #141210;
+    color: #ede8e3;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  }
+}
+
+/* Markdown styling inside AI messages */
+.prose h1, .prose h2, .prose h3 {
+  font-family: Georgia, Cambria, "Times New Roman", Times, serif;
+  font-weight: 600;
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
+  color: #f7f4ef;
+}
+.prose h1 { font-size: 1.25rem; }
+.prose h2 { font-size: 1.1rem; }
+.prose h3 { font-size: 1rem; }
+
+.prose p {
+  margin-bottom: 0.75rem;
+  line-height: 1.65;
+}
+
+.prose ul, .prose ol {
+  margin-left: 1.25rem;
+  margin-bottom: 0.75rem;
+}
+
+.prose ul {
+  list-style-type: disc;
+}
+
+.prose ol {
+  list-style-type: decimal;
+}
+
+.prose li {
+  margin-bottom: 0.25rem;
+  line-height: 1.6;
+}
+
+.prose blockquote {
+  border-left: 2px solid #f59e0b;
+  padding-left: 0.75rem;
+  margin-left: 0;
+  margin-right: 0;
+  font-style: italic;
+  color: #d6d3d1;
+}
+
+.prose strong {
+  color: #fde68a;
+  font-weight: 600;
+}
+
+.prose em {
+  color: #fef3c7;
+}
+
+.prose code {
+  background-color: #292524;
+  padding: 0.15rem 0.35rem;
+  border-radius: 0.25rem;
+  font-size: 0.85em;
+  color: #fcd34d;
+}
